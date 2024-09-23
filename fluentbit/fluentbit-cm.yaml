@@ -48,11 +48,12 @@ data:
         Read_From_Tail On
 
     [OUTPUT]
-        Name es
-        Match kube.*
-        Host ${FLUENT_ELASTICSEARCH_HOST}
-        Port  ${FLUENT_ELASTICSEARCH_PORT}
-        Index my_index
+        Name   s3
+        Match  kube.*
+        bucket k8s-logs1
+        region us-west-1
+        s3_key_format     /$TAG[2]/$TAG[0]/%Y/%m/%d/%H/%M/%S/$UUID.gz
+        s3_key_format_tag_delimiters -
 
 
 
@@ -67,5 +68,5 @@ metadata:
     app.kubernetes.io/name: fluent-bit
     app.kubernetes.io/version: 1.7.9
     helm.sh/chart: fluent-bit-0.15.15
-  name: fluent-bit
+  name: fluent-bit-config
   namespace: logging
